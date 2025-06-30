@@ -7,12 +7,12 @@ const createRequest = (options = {}) => {
     const formData = new FormData;
     xhr.responseType = 'json';
     const urlOptions = options.url;
-    const arrayFromObj = Object.entries(options.data);
+    const arrayFromObj = Object.entries(options.data) || {};
 
     if(options.method === 'GET') {
         urlOptions += '?'
         arrayFromObj.forEach((key, value) => {
-            urlOptions + `${key}=${value}`
+            urlOptions += `${key}=${value}&`
         })
     } else {
         arrayFromObj.forEach((key, value) => {
