@@ -10,7 +10,7 @@ class User {
    * */
   static URL = '/user'
   static setCurrent(user) {
-    localStorage.setItem = ('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   /**

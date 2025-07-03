@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 /**
  * Класс CreateAccountForm управляет формой
  * создания нового счёта
@@ -9,6 +11,13 @@ class CreateAccountForm extends AsyncForm {
    * и сбрасывает форму
    * */
   onSubmit(data) {
-
+    Account.create(data, (err, response) => {
+      if(response.success) {
+        const createAccountModal = App.getModal('createAccount');
+        createAccountModal.close();
+        App.update();
+        this.element.reset();
+      }
+    })
   }
 }
