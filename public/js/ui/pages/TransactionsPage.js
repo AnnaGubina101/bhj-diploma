@@ -1,4 +1,3 @@
-const { response } = require("express");
 
 /**
  * Класс TransactionsPage управляет
@@ -34,15 +33,16 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    const removeAccountBtn = document.querySelector('.remove-account');
-    removeAccountBtn.addEventListener('click', () => {
-      this.removeAccount();
-    })
+    this.element.addEventListener('click', (e) => {
+      const accountRemoveButton = e.target.closest('.remove-account');
+      const removeTransactionButton = e.target.closest('.transaction__remove');
 
-    const removeTransactionBtn = document.querySelector('.transaction__remove');
-    removeAccountBtn.addEventListener('click', () => {
-      this.removeTransaction(dataset.id);
-    })
+      if (accountRemoveButton) {
+        this.removeAccount();
+      } else if (removeTransactionButton) {
+        this.removeTransaction(removeTransactionButton.dataset.id);
+      }
+    });
   }
 
   /**
@@ -100,12 +100,12 @@ class TransactionsPage {
     this.lastOptions = options;
     Account.get(this.lastOptions.account_id, (err, response) => {
       if(response.success) {
-        TransactionsPage.renderTitle(response.data.name);
+        this.renderTitle(response.data.name);
       }
 
       Transaction.list(this.lastOptions, (err, response) => {
         if(response.success) {
-          TransactionsPage.renderTransactions(response.data)
+          this.renderTransactions(response.data)
         }
       })
     })
@@ -117,7 +117,7 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-    TransactionsPage.renderTransactions([]);
+    this.renderTransactions([]);
     this.renderTitle('Название счёта');
     this.lastOptions = null;
   }
@@ -153,7 +153,7 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML(item){
-    const transactionHtml = `
+    return `
 <div class="transaction transaction_${item.type} row">
     <div class="col-md-7 transaction__details">
       <div class="transaction__icon">
@@ -182,14 +182,10 @@ class TransactionsPage {
    * Отрисовывает список транзакций на странице
    * используя getTransactionHTML
    * */
-  renderTransactions(data){
-    const arrOfTransactions = data;
-
-    const content = document.querySelector(".content");
-    content.innerHTML = '';
-
-    arrOfTransactions.forEach(el => {
-      content.insertAdjacentHTML('afterBegin', this.getTransactionHTML(el));
-    });
+  renderTransactions(data) {
+    const content = this.element.querySelector(".content");
+    content.innerHTML = data.reduce((acc, item) => {
+      return acc + this.getTransactionHTML(item);
+    }, '');
   }
 }

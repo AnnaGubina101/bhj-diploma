@@ -19,16 +19,11 @@ class CreateTransactionForm extends AsyncForm {
   renderAccountsList() {
     Account.list(null, (err, response) => {
       if(response.success) {
-        const arrOfResponses = [...response.data];
-        const expenseList = document.querySelector('#expense-accounts-list');
-        const incomeList = document.querySelector('#income-accounts-list');
+        const accountsSelect = this.element.querySelector('.accounts-select');
 
-        expenseList.innerHTML = '';
-        incomeList.innerHTML = '';
-        arrOfResponses.forEach(el => {
-          incomeList.innerHTML += `<option value="${el.id}">${el.name}</option>`
-          expenseList.innerHTML += `<option value="${el.id}">${el.name}</option>`
-        })
+        accountsSelect.innerHTML = response.data.reduce((html, account) => {
+        return html + `<option value="${account.id}">${account.name}</option>`;
+      }, '');
       }
     })
   }
