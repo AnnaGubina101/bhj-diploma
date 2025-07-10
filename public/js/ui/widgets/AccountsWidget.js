@@ -32,7 +32,7 @@ class AccountsWidget {
   registerEvents() {
     const modalCreateAccount = document.querySelector('.create-account');
     modalCreateAccount.addEventListener('click', () => {
-      const newAccount = App.getModal('modalNewAccount');
+      const newAccount = App.getModal('createAccount');
       newAccount.open()
     })
 
@@ -56,10 +56,10 @@ class AccountsWidget {
    * */
   update() {
     if(User.current()) {
-      Account.list(data, (err, response) => {
+      Account.list(null, (err, response) => {
         if(response.success) {
           this.clear();
-          const arrOfAccounts = [...response];
+          const arrOfAccounts = [...response.data];
           arrOfAccounts.forEach((acc) => {
             this.renderItem(acc)
           })
@@ -100,12 +100,14 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-    return accountHtml = `<li class="active account" data-id= ${item.id}>
+    const accountHtml = `<li class="account" data-id= ${item.id}>
     <a href="#">
         <span>${item.name}</span> /
         <span>${item.sum}</span>
     </a>
 </li>`
+
+return accountHtml;
   }
 
   /**

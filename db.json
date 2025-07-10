@@ -5,6 +5,9 @@
       "email": "demo@demo",
       "password": "demo",
       "id": "1"
+    },
+    {
+      "id": "707c2f5o4mcwdyo7w"
     }
   ],
   "accounts": [
@@ -22,6 +25,10 @@
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "user_id": "707c2f5o4mcwdyo7w",
+      "id": "707c2fkwsmcweapaf"
     }
   ],
   "transactions": [

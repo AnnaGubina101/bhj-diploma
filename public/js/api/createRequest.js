@@ -6,7 +6,7 @@ const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
     const formData = new FormData;
     xhr.responseType = 'json';
-    const urlOptions = options.url;
+    let urlOptions = options.url;
     const arrayFromObj = Object.entries(options.data || {}) ;
 
     if(options.method === 'GET') {
@@ -20,9 +20,9 @@ const createRequest = (options = {}) => {
         })
     }
 
-    xhr.onload(() => {
+    xhr.onload = () => {
         options.callback(null, xhr.response)
-    })
+    }
 
     xhr.open(options.method, urlOptions);
     xhr.send(formData)
