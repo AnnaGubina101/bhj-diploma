@@ -30,18 +30,17 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    const modalCreateAccount = document.querySelector('.create-account');
-    modalCreateAccount.addEventListener('click', () => {
-      const newAccount = App.getModal('createAccount');
-      newAccount.open()
-    })
+    this.element.addEventListener('click', (e) => {
+      const modalCreateAccount = e.target.closest('.create-account');
+      const account = e.target.closest('.account');
 
-    const account = document.querySelectorAll('.account');
-    account.forEach((e) => {
-      e.addEventListener('click', () => {
-      this.onSelectAccount(e);
-    })
-    })
+      if (modalCreateAccount) {
+        const newAccount = App.getModal('createAccount');
+      newAccount.open()
+      } else if (account) {
+        this.onSelectAccount(account);
+      }
+    });
   }
 
   /**
@@ -89,7 +88,7 @@ class AccountsWidget {
    * */
   onSelectAccount( element ) {
     const activeAccount = document.querySelector('.active.account');
-    activeAccount.classList.remove('active');
+    if (activeAccount) activeAccount.classList.remove('active');
     element.classList.add('active');
     App.showPage( 'transactions', { account_id: element.dataset.id })
   }

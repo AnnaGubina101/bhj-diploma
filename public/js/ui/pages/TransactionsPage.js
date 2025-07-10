@@ -55,14 +55,14 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    if(!this.render.lastOptions) {
+    if(!this.lastOptions) {
       return
     }
-    Account.remove(this.lastOptions.account_id, (err, response) => {
-      if(response.success) {
-        const lastConfirmBox = confirm('Вы действительно хотите удалить счёт?');
-        if(!lastConfirmBox) return;
+     const lastConfirmBox = confirm('Вы действительно хотите удалить счёт?');
+    if(!lastConfirmBox) return;
 
+    Account.remove({id: this.lastOptions.account_id}, (err, response) => {
+      if(response.success) {
         App.updateWidgets();
         App.updateForms();
         this.clear();
@@ -77,10 +77,10 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction( id ) {
-    Transaction.remove(id, (err, response) => {
-      const lastConfirmBox = confirm('Вы действительно хотите удалить счёт?');
-      if(!lastConfirmBox) return;
+    const lastConfirmBox = confirm('Вы действительно хотите удалить счёт?');
+    if(!lastConfirmBox) return;
 
+    Transaction.remove({id}, (err, response) => {
       if(response.success) {
         App.update();
       }

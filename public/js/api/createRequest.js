@@ -11,11 +11,11 @@ const createRequest = (options = {}) => {
 
     if(options.method === 'GET') {
         urlOptions += '?'
-        arrayFromObj.forEach((key, value) => {
+        arrayFromObj.forEach(([key, value]) => {
             urlOptions += `${key}=${value}&`
         })
     } else {
-        arrayFromObj.forEach((key, value) => {
+        arrayFromObj.forEach(([key, value]) => {
             formData.append(key, value)
         })
     }
